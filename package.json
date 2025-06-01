@@ -1,0 +1,23 @@
+{
+  "name": "acf-block-autoloader",
+  "version": "1.0.0",
+  "description": "Library for automating the registration of Gutenberg blocks via Advanced Custom Fields",
+  "homepage": "https://omgpress.com/acf-block-autoloader",
+  "license": "GPL-2.0-or-later",
+  "contributors": [
+    {
+      "name": "OmgPress",
+      "email": "hello@omgpress.com",
+      "homepage": "https://omgpress.com"
+    }
+  ],
+  "keywords": [
+    "wordpress"
+  ],
+  "devDependencies": {
+    "husky": "^8.0.3"
+  },
+  "scripts": {
+    "prepare": "husky install"
+  }
+}
