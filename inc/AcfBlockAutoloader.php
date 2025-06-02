@@ -4,11 +4,12 @@ namespace OmgAcfBlockAutoloader;
 use DirectoryIterator;
 use Exception;
 use OmgCore\Fs;
+use OmgCore\Helper\DashToCamelcase;
 
 defined( 'ABSPATH' ) || exit;
 
 class AcfBlockAutoloader {
-	use Helper\DashToCamelcase;
+	use DashToCamelcase;
 
 	protected string $key;
 	protected Fs $fs;
