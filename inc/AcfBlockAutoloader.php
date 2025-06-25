@@ -3,28 +3,37 @@ namespace OmgAcfBlockAutoloader;
 
 use DirectoryIterator;
 use Exception;
+use OmgCore\Feature;
 use OmgCore\Fs;
 use OmgCore\Helper\DashToCamelcase;
 
 defined( 'ABSPATH' ) || exit;
 
-class AcfBlockAutoloader {
+class AcfBlockAutoloader extends Feature {
 	use DashToCamelcase;
 
 	protected string $key;
 	protected Fs $fs;
-	protected string $acf_block_dir;
+	protected string $template_dir;
+	protected string $field_namespace;
+	protected array $block_fields = array();
 
-	public function __construct( string $key, Fs $fs, string $acf_block_dir = 'acf-block' ) {
-		$this->key           = $key;
-		$this->fs            = $fs;
-		$this->acf_block_dir = $acf_block_dir;
+	protected array $config_props = array(
+		'template_dir'    => 'acf-block',
+		'field_namespace' => 'AcfBlock',
+	);
+
+	public function __construct( string $key, Fs $fs, $config = array() ) {
+		parent::__construct( $config );
+
+		$this->key = $key;
+		$this->fs  = $fs;
 	}
 
 	/**
 	 * @throws Exception
 	 */
-	public function register_block_type( string $post_type, string $title, string $field_namespace ): self {
+	public function register_block_type( string $post_type, string $title, string $this_namespace ): self {
 		if (
 			! function_exists( 'acf_register_block_type' ) ||
 			! function_exists( 'register_block_type' )
@@ -33,7 +42,7 @@ class AcfBlockAutoloader {
 		}
 
 		$this->register_block_category( $post_type, $title );
-		$this->register_blocks( $post_type, $field_namespace );
+		$this->register_blocks( $post_type, $this_namespace );
 
 		return $this;
 	}
@@ -62,7 +71,7 @@ class AcfBlockAutoloader {
 		add_action(
 			'acf/init',
 			function () use ( $post_type, $field_namespace ): void {
-				$path = "$this->acf_block_dir/$post_type";
+				$path = "$this->template_dir/$post_type";
 				$dir  = $this->fs->get_path( $path );
 
 				if ( ! file_exists( $dir ) ) {
@@ -120,13 +129,16 @@ class AcfBlockAutoloader {
 		);
 	}
 
-	protected function register_block_fields( string $slug, string $field_namespace ): void {
-		$classname = $field_namespace . '\\' . $this->dash_to_camelcase( $slug, true );
+	/**
+	 * @throws Exception
+	 */
+	protected function register_block_fields( string $slug, string $this_namespace ): void {
+		$classname = $this_namespace . '\\' . $this->field_namespace . '\\' . $this->dash_to_camelcase( $slug, true );
 
 		if ( ! class_exists( $classname ) ) {
-			return;
+			throw new Exception( esc_html( "The \"$classname\" block fields class does not exist" ) );
 		}
 
-		new $classname();
+		$this->block_fields[] = new $classname();
 	}
 }
