@@ -3,13 +3,13 @@ namespace OmgAcfBlockAutoloader;
 
 use DirectoryIterator;
 use Exception;
-use OmgCore\Feature;
+use OmgCore\OmgFeature;
 use OmgCore\Fs;
 use OmgCore\Helper\DashToCamelcase;
 
 defined( 'ABSPATH' ) || exit;
 
-class AcfBlockAutoloader extends Feature {
+class AcfBlockAutoloader extends OmgFeature {
 	use DashToCamelcase;
 
 	protected string $key;
@@ -137,6 +137,10 @@ class AcfBlockAutoloader extends Feature {
 
 		if ( ! class_exists( $classname ) ) {
 			throw new Exception( esc_html( "The \"$classname\" block fields class does not exist" ) );
+		}
+
+		if ( ! is_subclass_of( $classname, 'OmgAcfBlockAutoloader\AcfBlockField' ) ) {
+			throw new Exception( esc_html( "The \"$classname\" class must extend OmgAcfBlockAutoloader\AcfBlockField" ) );
 		}
 
 		$this->block_fields[] = new $classname();
