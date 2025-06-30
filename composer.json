@@ -1,6 +1,6 @@
 {
   "name": "omgpress/acf-block-autoloader",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "type": "wordpress-library",
   "description": "Library for automating the registration of Gutenberg blocks via Advanced Custom Fields",
   "homepage": "https://omgpress.com/acf-block-autoloader",
