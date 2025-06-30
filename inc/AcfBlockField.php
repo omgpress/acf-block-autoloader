@@ -11,5 +11,5 @@ abstract class AcfBlockField extends OmgFeature {
 		add_action( 'acf/init', $this->register() );
 	}
 
-	abstract public function register(): callable;
+	abstract protected function register(): callable;
 }
