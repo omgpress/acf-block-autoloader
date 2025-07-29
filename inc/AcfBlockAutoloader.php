@@ -44,7 +44,7 @@ class AcfBlockAutoloader extends OmgFeature {
 	 *
 	 * @param string $post_type The post type to register the block for.
 	 * @param string $title The title of the block category.
-	 * @param string|null $field_namespace_prefix Optional. The namespace prefix for the block fields classes. If you also want to autoload fields for blocks, pass this parameter (usually it should just be static::class). For example, fields will be automatically loaded from all classes in the `Post/AcfBlock` namespace.
+	 * @param string|null $field_namespace_prefix Optional. The namespace prefix for the block fields classes. If you also want to autoload fields for blocks, pass this parameter (usually it should just be static::class). For example, if you call this method from the Post class, the fields will be automatically loaded from all classes in the `Post/AcfBlock` namespace.
 	 *
 	 * @return self
 	 * @throws Exception
