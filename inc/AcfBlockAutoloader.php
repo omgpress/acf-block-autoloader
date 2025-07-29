@@ -23,7 +23,16 @@ class AcfBlockAutoloader extends OmgFeature {
 		'field_namespace' => 'AcfBlock',
 	);
 
-	public function __construct( string $key, Fs $fs, $config = array() ) {
+	/**
+	 * AcfBlockAutoloader constructor.
+	 *
+	 * @param string $key The key for the block type.
+	 * @param Fs $fs The filesystem instance.
+	 * @param array $config Configuration options.
+	 *
+	 * @throws Exception
+	 */
+	public function __construct( string $key, Fs $fs, array $config = array() ) {
 		parent::__construct( $config );
 
 		$this->key = $key;
@@ -31,9 +40,16 @@ class AcfBlockAutoloader extends OmgFeature {
 	}
 
 	/**
+	 * Register a block type with ACF and WordPress.
+	 *
+	 * @param string $post_type The post type to register the block for.
+	 * @param string $title The title of the block category.
+	 * @param string|null $field_namespace_prefix Optional. The namespace prefix for the block fields classes. If you also want to autoload fields for blocks, pass this parameter (usually it should just be static::class). For example, fields will be automatically loaded from all classes in the `Post/AcfBlock` namespace.
+	 *
+	 * @return self
 	 * @throws Exception
 	 */
-	public function register_block_type( string $post_type, string $title, string $this_namespace ): self {
+	public function register_block_type( string $post_type, string $title, ?string $field_namespace_prefix = null ): self {
 		if (
 			! function_exists( 'acf_register_block_type' ) ||
 			! function_exists( 'register_block_type' )
@@ -42,7 +58,10 @@ class AcfBlockAutoloader extends OmgFeature {
 		}
 
 		$this->register_block_category( $post_type, $title );
-		$this->register_blocks( $post_type, $this_namespace );
+
+		if ( $field_namespace_prefix ) {
+			$this->register_blocks( $post_type, $field_namespace_prefix );
+		}
 
 		return $this;
 	}
@@ -132,8 +151,8 @@ class AcfBlockAutoloader extends OmgFeature {
 	/**
 	 * @throws Exception
 	 */
-	protected function register_block_fields( string $slug, string $this_namespace ): void {
-		$classname = $this_namespace . '\\' . $this->field_namespace . '\\' . $this->dash_to_camelcase( $slug, true );
+	protected function register_block_fields( string $slug, string $field_namespace_prefix ): void {
+		$classname = $field_namespace_prefix . '\\' . $this->field_namespace . '\\' . $this->dash_to_camelcase( $slug, true );
 
 		if ( ! class_exists( $classname ) ) {
 			throw new Exception( esc_html( "The \"$classname\" block fields class does not exist" ) );
