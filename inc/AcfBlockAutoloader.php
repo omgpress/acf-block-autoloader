@@ -1,5 +1,5 @@
 <?php
-namespace OmgAcfBlockAutoloader;
+namespace OmgAcfHelper;
 
 use DirectoryIterator;
 use Exception;
@@ -26,7 +26,7 @@ class AcfBlockAutoloader extends OmgFeature {
 	/**
 	 * AcfBlockAutoloader constructor.
 	 *
-	 * @param string $key The key for the block type.
+	 * @param string $key The key for the App.
 	 * @param Fs $fs The filesystem instance.
 	 * @param array $config Configuration options.
 	 *

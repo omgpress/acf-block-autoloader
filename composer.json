@@ -1,9 +1,9 @@
 {
-  "name": "omgpress/acf-block-autoloader",
-  "version": "0.1.2",
+  "name": "omgpress/acf-helper",
+  "version": "0.1.0",
   "type": "wordpress-library",
-  "description": "Library for automating the registration of Gutenberg blocks via Advanced Custom Fields",
-  "homepage": "https://omgpress.com/acf-block-autoloader",
+  "description": "Library for developing using Advanced Custom Fields",
+  "homepage": "https://omgpress.com/acf-helper",
   "license": "GPL-2.0-or-later",
   "authors": [
     {
@@ -24,7 +24,7 @@
   },
   "autoload": {
     "psr-4": {
-      "OmgAcfBlockAutoloader\\": "inc/"
+      "OmgAcfHelper\\": "inc/"
     }
   },
   "require": {
