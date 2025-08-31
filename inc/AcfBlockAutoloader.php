@@ -94,7 +94,7 @@ class AcfBlockAutoloader extends OmgFeature {
 				$dir  = $this->fs->get_path( $path );
 
 				if ( ! file_exists( $dir ) ) {
-					throw new Exception( esc_html( "The \"$dir\" directory does not exist" ) );
+					throw new Exception( esc_html( "The $dir directory does not exist" ) );
 				}
 
 				$dir_iterator = new DirectoryIterator( $dir );
@@ -116,7 +116,7 @@ class AcfBlockAutoloader extends OmgFeature {
 					);
 
 					if ( empty( $file_headers['name'] ) ) {
-						throw new Exception( esc_html( "The \"$slug.php\" file does not have a block name" ) );
+						throw new Exception( esc_html( "The $slug.php file does not have a block name" ) );
 					}
 
 					$file_headers['description'] = $file_headers['description'] ?? '';
@@ -155,11 +155,11 @@ class AcfBlockAutoloader extends OmgFeature {
 		$classname = $field_namespace_prefix . '\\' . $this->field_namespace . '\\' . $this->dash_to_camelcase( $slug, true );
 
 		if ( ! class_exists( $classname ) ) {
-			throw new Exception( esc_html( "The \"$classname\" block fields class does not exist" ) );
+			throw new Exception( esc_html( "The $classname block fields class does not exist" ) );
 		}
 
-		if ( ! is_subclass_of( $classname, 'OmgAcfBlockAutoloader\AcfBlockField' ) ) {
-			throw new Exception( esc_html( "The \"$classname\" class must extend OmgAcfBlockAutoloader\AcfBlockField" ) );
+		if ( ! is_subclass_of( $classname, 'OmgAcfHelper\AcfBlockField' ) ) {
+			throw new Exception( esc_html( "The $classname class must extend OmgAcfHelper\AcfBlockField" ) );
 		}
 
 		$this->block_fields[] = new $classname();
