@@ -1,6 +1,6 @@
 {
   "name": "omgpress/acf-helper",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "type": "wordpress-library",
   "description": "Library for developing using Advanced Custom Fields",
   "homepage": "https://omgpress.com/acf-helper",
