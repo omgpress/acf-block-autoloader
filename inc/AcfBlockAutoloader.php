@@ -14,26 +14,21 @@ class AcfBlockAutoloader extends OmgFeature {
 
 	protected string $key;
 	protected Fs $fs;
-	protected string $template_dir;
-	protected string $field_namespace;
-	protected array $block_fields = array();
-
-	protected array $config_props = array(
-		'template_dir'    => 'acf-block',
-		'field_namespace' => 'AcfBlock',
-	);
+	protected string $template_dir    = 'acf-block';
+	protected string $field_namespace = 'AcfBlock';
+	protected array $block_fields     = array();
 
 	/**
 	 * AcfBlockAutoloader constructor.
 	 *
 	 * @param string $key The key for the App.
 	 * @param Fs $fs The filesystem instance.
-	 * @param array $config Configuration options.
+	 * @param callable $get_config Configuration options.
 	 *
 	 * @throws Exception
 	 */
-	public function __construct( string $key, Fs $fs, array $config = array() ) {
-		parent::__construct( $config );
+	public function __construct( string $key, Fs $fs, ?callable $get_config = null ) {
+		parent::__construct( $get_config );
 
 		$this->key = $key;
 		$this->fs  = $fs;
