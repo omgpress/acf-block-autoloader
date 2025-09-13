@@ -6,8 +6,8 @@ use OmgCore\OmgFeature;
 defined( 'ABSPATH' ) || exit;
 
 abstract class AcfBlockField extends OmgFeature {
-	public function __construct( array $config = array() ) {
-		parent::__construct( $config );
+	public function __construct() {
+		parent::__construct();
 		add_action( 'acf/init', $this->register() );
 	}
 
